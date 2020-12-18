@@ -51,6 +51,7 @@
 
 
             </header>
+
             <h2>Introduction</h2>
             <h3>Background</h3>
 
@@ -104,13 +105,13 @@
                     width="100%" height="500" src="plots/NASDAQ-std.html">
             </iframe>
 
-            <h2>Regression Analysis</h2>
-            <h3>Baseline model</h3>
+            <h3>Regression Analysis</h3>
+            <h4>Baseline model</h4>
             <p>As Nelson and Plosser (1982) and many subsequent authors have pointed out, it is very common for
                 macroeconomic data to be represented as a random walk. For a random walk, the best univariate forecast
                 for y_{t} is simply y_{t-1}.</p>
 
-            <h3>Trends Model</h3>
+            <h4>Trends Model</h4>
             <p>The trends model is simply the random walk model with google trends data on the topic vaccine being an
                 additional feature.</p>
             <p>It seems that in the long run (5 years in our case), Google Trends on the topic vaccine is likely to make
@@ -176,7 +177,6 @@
             </iframe>
             <p>We could see that Google Trends on topics such as covid (in the world and the US), vaccine (in the
                 world), and loan (in the US) improved the total MAE.
-
                 We also did a turning-point MAE analysis on the trends models. The following figure plots the
                 improvement of MAE compared with base model for each trends model:
             </p>
@@ -226,7 +226,7 @@
                 improves the total MAE best while ‘Italy’ improves the MAE significantly at the first turning point
                 which corresponds to the onset of Covid-19 pandemic in Italy.</p>
 
-            <h2>(2020) Predicting NASDAQ-composite</h2>
+            <h2>(2020) Detecting influential categories</h2>
 
             <p>After zooming into specific topics , we’d like to take a step further and expand our research objects to
                 more general topics in order to find which aspects of life are more likely to improve NASDAQ
@@ -252,7 +252,7 @@
                 how suitable the variable should enter a regression. MCMC algorithm is applied to calculate the
                 posterior distribution of all coefficients.
             </p>
-            <div class="image main"><img src="plots/slab.png"/></div>
+            <div><img src="plots/slab.png" height="60%" width="60%" align="center"/></div>
             <p>We first use the topics from the first level(the most general one) and do the sampling for 5000 times.
                 News, Reference, Internet & Telecom, Pets & Animals, Health are the five topics which are most likely to
                 enter the regression. We then take subtopics from them and run the algorithm again. Broadcast & Network
