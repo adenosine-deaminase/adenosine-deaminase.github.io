@@ -47,7 +47,7 @@
                     stock market. Between 20 February 2020 and ended on 7 April, the global stock market experienced the
                     fastest fall in financial history and the most devastating crash since the Wall Street Crash of
                     1929. NASDAQ indexes, one kind of critical stock indexes in the US stock market, were no
-                    exception:</p>
+                    exception.</p>
 
 
             </header>
@@ -67,7 +67,9 @@
             <p>Previous researches show that the addition of relevant Google Trends predictors to the random-work model
                 for initial claims for unemployment benefits in the US seemed to help in identifying at least two of the
                 turning points in the series and showed reduced mean absolute error (MAE) during the recession though
-                the total MAE was higher.[1] Here we conduct similar analysis on NASDAQ indexes, especially in the year
+                the total MAE was higher.<a
+                        href="https://onlinelibrary.wiley.com/doi/full/10.1111/j.1475-4932.2012.00809.x?casa_token=8z--raqCRj8AAAAA%3A1fYgiS4CJi8SE5BhL8EG4pJcFrQMct5X2ILG0Z5gaMmE1e6tPruBJOEfsBfJZIoRXFxFkvwkt3v6WNs">[1]</a>
+                Here we conduct similar analysis on NASDAQ indexes, especially in the year
                 of 2020. We will focus on the influence of Google trends while also looking at two significant numbers
                 that we’ve been concerning for almost one year -- the new Covid-19 cases and deaths.
             </p>
@@ -106,7 +108,7 @@
             <h3>Baseline model</h3>
             <p>As Nelson and Plosser (1982) and many subsequent authors have pointed out, it is very common for
                 macroeconomic data to be represented as a random walk. For a random walk, the best univariate forecast
-                for $y_t$ is simply yt_1.</p>
+                for y_{t} is simply y_{t-1}.</p>
 
             <h3>Trends Model</h3>
             <p>The trends model is simply the random walk model with google trends data on the topic vaccine being an
@@ -155,13 +157,13 @@
                 figure:
             </p>
 
-            <p>We could see that only the deaths model shows less MAE than the base model during all the four turning
-                points.</p>
-
-
             <iframe frameborder="no" marginwidth="0" marginheight="0"
                     width="100%" height="500" src="plots/turningpoints_2020.html">
             </iframe>
+
+            <p>We could see that only the deaths model shows less MAE than the base model during all the four turning
+                points.</p>
+
 
             <p>We can see that the Google Trends on the topic lockdown among the world has a rather low p-value compared
                 with other predictors.
@@ -212,10 +214,17 @@
                 below:</p>
             <div class="image main"><img src="plots/separated_features.jpg" alt=""/></div>
             <p>We can see that only queries related with Italy, no matter in the US or the world, show significant
-                improvement of MAE during the first turning point.
-
-                There also exists relatively small improvements of MAE during the 4 periods.
+                improvement of MAE during the first turning point though there exists relatively small improvements of
+                MAE during the 4 periods.
             </p>
+
+            <h3>Summary</h3>
+            <p>In summary, in this section we evaluated the performance of the AR-1 model on predicting NASDAQ-Composite
+                index in 2020. Results showed that the addition of deaths due to Covid-19 increased the MAE during the
+                whole period and the 4 turning points compared with the random walk model while the model added with new
+                cases of Covid-19 does not. We also studied the google trends of 9 topics. We found that ‘covid’
+                improves the total MAE best while ‘Italy’ improves the MAE significantly at the first turning point
+                which corresponds to the onset of Covid-19 pandemic in Italy.</p>
 
             <h2>(2020) Predicting NASDAQ-composite</h2>
 
@@ -243,17 +252,22 @@
                 how suitable the variable should enter a regression. MCMC algorithm is applied to calculate the
                 posterior distribution of all coefficients.
             </p>
+            <div class="image main"><img src="plots/slab.png"/></div>
             <p>We first use the topics from the first level(the most general one) and do the sampling for 5000 times.
                 News, Reference, Internet & Telecom, Pets & Animals, Health are the five topics which are most likely to
                 enter the regression. We then take subtopics from them and run the algorithm again. Broadcast & Network
                 News and Aging & Geriatrics are most influential topics. Finally, for the bottom level. we find the
                 spike and slab technique assigned high posterior probabilities to political polls & Surveys and
                 Campaigns & Elections which is not surprised because 2020 U.S. election has large impact on stock. </p>
-            <div class="image main"><img src="plots/slab.png" alt=""/></div>
+            <div class="image main"><img src="plots/slabfeatures.jpg" alt=""/></div>
             <p>From the analysis above, Leisure, Healthcare, Politics are three main topics in this unprecedented year.
                 In fact, we believe they are not only good indicators of Stock but also a strong sketching of what we
                 are experiencing now. </p>
-            <div class="image main"><img src="plots/slabfeatures.jpg" alt=""/></div>
+
+            <h2>Reference</h2>
+            <p>[1] Choi, Hyunyoung, and Hal Varian. "Predicting the present with Google Trends." Economic record 88
+                (2012): 2-9.</p>
+
         </section>
 
     </div>
