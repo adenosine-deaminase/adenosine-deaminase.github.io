@@ -5,155 +5,326 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
 <html>
-	<head>
-		<title>Predicting NASDAQ indexes during the COVID-19 pandemic</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-	</head>
-	<body class="is-preload">
+<head>
+    <title>Predicting NASDAQ indexes during the COVID-19 pandemic</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <link rel="stylesheet" href="assets/css/main.css"/>
+    <noscript>
+        <link rel="stylesheet" href="assets/css/noscript.css"/>
+    </noscript>
+</head>
+<body class="is-preload">
 
-		<!-- Wrapper -->
-			<div id="wrapper">
+<!-- Wrapper -->
+<div id="wrapper">
 
-				<!-- Header -->
-					<header id="header">
-						<a href="#" class="logo">Adenosine Deaminase</a>
-					</header>
+    <!-- Header -->
+    <header id="header">
+        <a href="#" class="logo">Adenosine Deaminase</a>
+    </header>
 
-				<!-- Nav -->
-					<nav id="nav">
-						<ul class="links">
-							<li class="active"><a href="#">Data Story</a></li>
-						</ul>
-						<ul class="icons">
-							<li><a href="#" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
-						</ul>
-					</nav>
+    <!-- Nav -->
+    <nav id="nav">
+        <ul class="links">
+            <li class="active"><a href="#">Data Story</a></li>
+        </ul>
+        <ul class="icons">
+            <li><a href="#" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+        </ul>
+    </nav>
 
-				<!-- Main -->
-					<div id="main">
+    <!-- Main -->
+    <div id="main">
 
-						<!-- Post -->
-							<section class="post">
-								<header class="major">
-									<span class="date">December 19, 2020</span>
-									<h1>Predicting NASDAQ indexes <br />
-									during the COVID-19 pandemic</h1>
-									<p>Aenean ornare velit lacus varius enim ullamcorper proin aliquam<br />
-									facilisis ante sed etiam magna interdum congue. Lorem ipsum dolor<br />
-									amet nullam sed etiam veroeros.</p>
+        <!-- Post -->
+        <section class="post">
+            <header class="major">
+                <span class="date">December 19, 2020</span>
+                <h1>Predicting NASDAQ indexes <br/>
+                    during the COVID-19 pandemic</h1>
+                <p>Covid-19, the most significant "black swan incident" in 2020, seemed to add huge uncertainties to the
+                    stock market. Between 20 February 2020 and ended on 7 April, the global stock market experienced the
+                    fastest fall in financial history and the most devastating crash since the Wall Street Crash of
+                    1929. NASDAQ indexes, one kind of critical stock indexes in the US stock market, were no
+                    exception:</p>
 
-									
-								</header>
-								<iframe frameborder="no" marginwidth="0" marginheight="0"
-									width="100%" height="500" src="plots/NASDAQ-both.html">
-									</iframe>
 
-									<iframe frameborder="no" marginwidth="0" marginheight="0"
-									width="100%" height="500" src="plots/NASDAQ-std.html">
-									</iframe>
+            </header>
+            <h2>Introduction</h2>
+            <h3>Background</h3>
 
-									<iframe frameborder="no" marginwidth="0" marginheight="0"
-									width="100%" height="500" src="plots/out_of_sample_5years.html">
-									</iframe>
 
-									<iframe frameborder="no" marginwidth="0" marginheight="0"
-									width="100%" height="500" src="plots/improvements_2020.html">
-									</iframe>
+            <p>There are countless factors influencing the stock market. It’s impossible to study them exhaustively.
+                Here we try to study several aspects including Google Trends and covid-19 situation (new
+                cases/deaths).</p>
+            <p>Google Trends provides a time series index of the volume of queries users enter into Google in a given
+                geographic data. Depending on the time range, the data was normalized to [0,100]. Google trends data are
+                available. Furthermore, the search queries were classified into 25 categories on the top level, 274 on
+                the second level, and 629 on the third level, providing an abundant database for us to analyze what
+                people are concerning during a certain time period.
+            </p>
+            <p>Previous researches show that the addition of relevant Google Trends predictors to the random-work model
+                for initial claims for unemployment benefits in the US seemed to help in identifying at least two of the
+                turning points in the series and showed reduced mean absolute error (MAE) during the recession though
+                the total MAE was higher.[1] Here we conduct similar analysis on NASDAQ indexes, especially in the year
+                of 2020. We will focus on the influence of Google trends while also looking at two significant numbers
+                that we’ve been concerning for almost one year -- the new Covid-19 cases and deaths.
+            </p>
 
-									<iframe frameborder="no" marginwidth="0" marginheight="0"
-									width="100%" height="500" src="plots/turningpoints_2020.html">
-									</iframe>
+            <h3>Research Questions
+            </h3>
+            <p>How does the AR-1 Model perform on predicting NASDAQ indexes?
+            </p>
+            <p>There are many queries on google whose time series seem to be related with the covid situation. Do they
+                help to improve the performance of the AR-1 model?
+            </p>
+            <p>Among all the Google Trends categories, which are good predictors of NASDAQ indexes?
+            </p>
 
-									<iframe frameborder="no" marginwidth="0" marginheight="0"
-									width="100%" height="500" src="plots/turningimprovements_2020_1.html">
-									</iframe>
-									<iframe frameborder="no" marginwidth="0" marginheight="0"
-									width="100%" height="500" src="plots/turningimprovements_2020_2.html">
-									</iframe>
-									<iframe frameborder="no" marginwidth="0" marginheight="0"
-									width="100%" height="500" src="plots/turningimprovements_2020_3.html">
-									</iframe>
-									<iframe frameborder="no" marginwidth="0" marginheight="0"
-									width="100%" height="500" src="plots/turningimprovements_2020_4.html">
-									</iframe>
+            <h2>(2015-2020) Predicting NASDAQ-healthcare
+            </h2>
+            <p>In this section we study the performance of AR-1 models on predicting the NASDAQ-Healthcare index
+                (^IXHC).
+            </p>
+            <h3>Dataset
+            </h3>
+            <p>At first, we chose two NASDAQ indexes: NASDAQ-Healthcare (^IXHC) and NASDAQ-Biotech (^NBI) based on a
+                naive thought that those indexes might be to more extent related to Covid-19. The time range was set as
+                2015/12/01~2020/12/01 with resolution of one week. As shown below, These two indexes seemed to be one
+                the same boat, rising and falling together. Hence we only took NASDAQ-Healthcare in the following
+                regression analysis.
+            </p>
+            <iframe frameborder="no" marginwidth="0" marginheight="0"
+                    width="100%" height="500" src="plots/NASDAQ-both.html">
+            </iframe>
+            <iframe frameborder="no" marginwidth="0" marginheight="0"
+                    width="100%" height="500" src="plots/NASDAQ-std.html">
+            </iframe>
 
-									<div class="image main"><img src="plots/separated_features.jpg" alt="" /></div>
+            <h2>Regression Analysis</h2>
+            <h3>Baseline model</h3>
+            <p>As Nelson and Plosser (1982) and many subsequent authors have pointed out, it is very common for
+                macroeconomic data to be represented as a random walk. For a random walk, the best univariate forecast
+                for $y_t$ is simply yt_1.</p>
 
-									<div class="image main"><img src="plots/slabfeatures.jpg" alt="" /></div>
+            <h3>Trends Model</h3>
+            <p>The trends model is simply the random walk model with google trends data on the topic vaccine being an
+                additional feature.</p>
+            <p>It seems that in the long run (5 years in our case), Google Trends on the topic vaccine is likely to make
+                no contribution to the random walk model.
+            </p>
+            <h3>Summary</h3>
+            <iframe frameborder="no" marginwidth="0" marginheight="0"
+                    width="100%" height="500" src="plots/out_of_sample_5years.html">
+            </iframe>
+            <p>In summary, in this section we evaluated the performance of the AR-1 model on predicting
+                NASDAQ-Healthcare index in recent 5 years. Results showed that the best univariate predictor is just the
+                one-step-ahead value i.e. random walk model. When playing with additional predictors on the AR-1 model,
+                we found that the NASDAQ-Biotech index slightly improved the random walk model fit while the Google
+                trends on the topic vaccine seemed to have no contribution to the model which is in contrary to our
+                intuition. Our next step is to study the influence of more Google Trends topics and the covid
+                cases/deaths on the AR-1 Model in the year 2020.
+            </p>
 
-								<p>Donec eget ex magna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque venenatis dolor imperdiet dolor mattis sagittis. Praesent rutrum sem diam, vitae egestas enim auctor sit amet. Pellentesque leo mauris, consectetur id ipsum sit amet, fergiat. Pellentesque in mi eu massa lacinia malesuada et a elit. Donec urna ex, lacinia in purus ac, pretium pulvinar mauris. Nunc lorem mauris, fringilla in aliquam at, euismod in lectus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur sapien risus, commodo eget turpis at, elementum convallis enim turpis, lorem ipsum dolor sit amet nullam.</p>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis dapibus rutrum facilisis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam tristique libero eu nibh porttitor fermentum. Nullam venenatis erat id vehicula viverra. Nunc ultrices eros ut ultricies condimentum. Mauris risus lacus, blandit sit amet venenatis non, bibendum vitae dolor. Nunc lorem mauris, fringilla in aliquam at, euismod in lectus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In non lorem sit amet elit placerat maximus. Pellentesque aliquam maximus risus. Donec eget ex magna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque venenatis dolor imperdiet dolor mattis sagittis. Praesent rutrum sem diam, vitae egestas enim auctor sit amet. Pellentesque leo mauris, consectetur id ipsum.</p>
-							</section>
+            <h2>(2020) Predicting NASDAQ-composite</h2>
 
-					</div>
+            <p>In this section we study the performance of AR-1 models on predicting the NASDAQ-Composite index (^IXIC)
+                in 2020. More additional predictors were studied.
+            </p>
+            <h3>Dataset</h3>
+            <p>From now on, we study the NASDAQ-Composite index (^IXIC). The time range was set as 2015/12/01~2020/12/01
+                with resolution of one day. In order to explore the changes of the stock market as far as possible, we
+                utilize the COVID-19 data in the US and focus on the new cases.</p>
+            <p>We also came out with 9 Google Trends topics that might influence the stock market in 2020. Both trends
+                in the US and worldwide were obtained to see if there’s any difference since the NASDAQ index
+                characterizes the US market.
+            </p>
 
-				<!-- Footer -->
-					<!--footer id="footer">
-						<section>
-							<form method="post" action="#">
-								<div class="fields">
-									<div class="field">
-										<label for="name">Name</label>
-										<input type="text" name="name" id="name" />
-									</div>
-									<div class="field">
-										<label for="email">Email</label>
-										<input type="text" name="email" id="email" />
-									</div>
-									<div class="field">
-										<label for="message">Message</label>
-										<textarea name="message" id="message" rows="3"></textarea>
-									</div>
-								</div>
-								<ul class="actions">
-									<li><input type="submit" value="Send Message" /></li>
-								</ul>
-							</form>
-						</section>
-						<section class="split contact">
-							<section class="alt">
-								<h3>Address</h3>
-								<p>1234 Somewhere Road #87257<br />
-								Nashville, TN 00000-0000</p>
-							</section>
-							<section>
-								<h3>Phone</h3>
-								<p><a href="#">(000) 000-0000</a></p>
-							</section>
-							<section>
-								<h3>Email</h3>
-								<p><a href="#">info@untitled.tld</a></p>
-							</section>
-							<section>
-								<h3>Social</h3>
-								<ul class="icons alt">
-									<li><a href="#" class="icon brands alt fa-twitter"><span class="label">Twitter</span></a></li>
-									<li><a href="#" class="icon brands alt fa-facebook-f"><span class="label">Facebook</span></a></li>
-									<li><a href="#" class="icon brands alt fa-instagram"><span class="label">Instagram</span></a></li>
-									<li><a href="#" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
-								</ul>
-							</section>
-						</section>
-					</footer-->
+            <h3>Regression Analysis</h3>
+            <p>We did a rolling-window prediction where the training set we determined as the all the data before day
+                t. The startpoint of prediction was set as 2020/02/01 to ensure that there are enough data points to
+                predict
+                the first value.</p>
+            <p>We can see that the deaths model has ~5% smaller total MAE than the other two models.
+            </p>
 
-				<!-- Copyright -->
-					<div id="copyright">
-						<ul><li>&copy; html5up</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li></ul>
-					</div>
 
-			</div>
+            <p>
+                We then take a look at the MAE values at 4 turning points in 2020 which were specified in the following
+                figure:
+            </p>
 
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+            <p>We could see that only the deaths model shows less MAE than the base model during all the four turning
+                points.</p>
 
-	</body>
+
+            <iframe frameborder="no" marginwidth="0" marginheight="0"
+                    width="100%" height="500" src="plots/turningpoints_2020.html">
+            </iframe>
+
+            <p>We can see that the Google Trends on the topic lockdown among the world has a rather low p-value compared
+                with other predictors.
+
+                We also compared the total MAE of trends model with that of base model. The improvement ratio was
+                plotted:
+            </p>
+            <iframe frameborder="no" marginwidth="0" marginheight="0"
+                    width="100%" height="500" src="plots/improvements_2020.html">
+            </iframe>
+            <p>We could see that Google Trends on topics such as covid (in the world and the US), vaccine (in the
+                world), and loan (in the US) improved the total MAE.
+
+                We also did a turning-point MAE analysis on the trends models. The following figure plots the
+                improvement of MAE compared with base model for each trends model:
+            </p>
+
+
+            <iframe frameborder="no" marginwidth="0" marginheight="0"
+                    width="100%" height="500" src="plots/turningimprovements_2020_1.html">
+            </iframe>
+            <p>In the first period, Google Trends topic Italy shows the largest improvement of MAE. That period
+                corresponds to the first peak of Google Trends on the topic Italy, which might be related to the rapidly
+                increasing Covid-19 cases reported in Italy.</p>
+
+            <iframe frameborder="no" marginwidth="0" marginheight="0"
+                    width="100%" height="500" src="plots/turningimprovements_2020_2.html">
+            </iframe>
+            <p>In the second period, Italy also shows the largest improvement. Interestingly, the US presidential
+                election also improved the MAE. Referring to the Google Trends data on the election, we could see a
+                small peak in that period.</p>
+
+            <iframe frameborder="no" marginwidth="0" marginheight="0"
+                    width="100%" height="500" src="plots/turningimprovements_2020_3.html">
+            </iframe>
+            <p>In the third period, lockdown produced the largest increase of MAE but this is hard to explain because
+                there were no obvious change on the Trends about lockdown in that period.
+            </p>
+            <iframe frameborder="no" marginwidth="0" marginheight="0"
+                    width="100%" height="500" src="plots/turningimprovements_2020_4.html">
+            </iframe>
+            <p>In the 4th period, it seems that no trends significantly increased the MAE, however, the election
+                produced the largest decrease of MAE, which might indicate that the public concern on election itself is
+                not a good predictor for NASDAQ index because because it might originates from both good news and bad
+                news about the election.
+            </p>
+            <p>To make it clearer, we plot the improvement of MAE for each trends model at 4 turning points as shown
+                below:</p>
+            <div class="image main"><img src="plots/separated_features.jpg" alt=""/></div>
+            <p>We can see that only queries related with Italy, no matter in the US or the world, show significant
+                improvement of MAE during the first turning point.
+
+                There also exists relatively small improvements of MAE during the 4 periods.
+            </p>
+
+            <h2>(2020) Predicting NASDAQ-composite</h2>
+
+            <p>After zooming into specific topics , we’d like to take a step further and expand our research objects to
+                more general topics in order to find which aspects of life are more likely to improve NASDAQ
+                predictions. Before we do any data analysis, we download all levels of google trends topics in 2020 and
+                conduct data wrangling to meet our needs.</p>
+
+            <p>First, we again set our model as basic AR-1 model. Each time we add one google trends variable into
+                out-sample regression and make a comparison with our base model by calculating MAE and ratio of
+                improvement.
+            </p>
+            <p>To our surprise, a large proportion of topics having good performances are about entertainment and
+                leisure in life which may indicate that during the epidemic period, people miss social and outdoor
+                activities and are very eager to find more brand new ways to entertain themselves.Their desire for past
+                collective life causes changes to their behavior which has an indirect impact on stock price.
+            </p>
+            <p>What’s more, we find from the table below, that the search for vulnerable groups also has a great impact
+                for improving predictions. It makes sense since the old and weak are more likely to get infected by
+                corona and need more attention and care.
+            </p>
+            <p>In order to find which topics combined together can fit well with our model. We used a Bayesian method
+                known as ‘spike and slab’ regression introduced in Predicting the Present with Google Trends . This
+                method assumes every variable has an extra coefficient according to Bernoulli distribution which shows
+                how suitable the variable should enter a regression. MCMC algorithm is applied to calculate the
+                posterior distribution of all coefficients.
+            </p>
+            <p>We first use the topics from the first level(the most general one) and do the sampling for 5000 times.
+                News, Reference, Internet & Telecom, Pets & Animals, Health are the five topics which are most likely to
+                enter the regression. We then take subtopics from them and run the algorithm again. Broadcast & Network
+                News and Aging & Geriatrics are most influential topics. Finally, for the bottom level. we find the
+                spike and slab technique assigned high posterior probabilities to political polls & Surveys and
+                Campaigns & Elections which is not surprised because 2020 U.S. election has large impact on stock. </p>
+            <div class="image main"><img src="plots/slab.png" alt=""/></div>
+            <p>From the analysis above, Leisure, Healthcare, Politics are three main topics in this unprecedented year.
+                In fact, we believe they are not only good indicators of Stock but also a strong sketching of what we
+                are experiencing now. </p>
+            <div class="image main"><img src="plots/slabfeatures.jpg" alt=""/></div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <!--footer id="footer">
+        <section>
+            <form method="post" action="#">
+                <div class="fields">
+                    <div class="field">
+                        <label for="name">Name</label>
+                        <input type="text" name="name" id="name" />
+                    </div>
+                    <div class="field">
+                        <label for="email">Email</label>
+                        <input type="text" name="email" id="email" />
+                    </div>
+                    <div class="field">
+                        <label for="message">Message</label>
+                        <textarea name="message" id="message" rows="3"></textarea>
+                    </div>
+                </div>
+                <ul class="actions">
+                    <li><input type="submit" value="Send Message" /></li>
+                </ul>
+            </form>
+        </section>
+        <section class="split contact">
+            <section class="alt">
+                <h3>Address</h3>
+                <p>1234 Somewhere Road #87257<br />
+                Nashville, TN 00000-0000</p>
+            </section>
+            <section>
+                <h3>Phone</h3>
+                <p><a href="#">(000) 000-0000</a></p>
+            </section>
+            <section>
+                <h3>Email</h3>
+                <p><a href="#">info@untitled.tld</a></p>
+            </section>
+            <section>
+                <h3>Social</h3>
+                <ul class="icons alt">
+                    <li><a href="#" class="icon brands alt fa-twitter"><span class="label">Twitter</span></a></li>
+                    <li><a href="#" class="icon brands alt fa-facebook-f"><span class="label">Facebook</span></a></li>
+                    <li><a href="#" class="icon brands alt fa-instagram"><span class="label">Instagram</span></a></li>
+                    <li><a href="#" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+                </ul>
+            </section>
+        </section>
+    </footer-->
+
+    <!-- Copyright -->
+    <div id="copyright">
+        <ul>
+            <li>&copy; html5up</li>
+            <li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+        </ul>
+    </div>
+
+</div>
+
+<!-- Scripts -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/jquery.scrollex.min.js"></script>
+<script src="assets/js/jquery.scrolly.min.js"></script>
+<script src="assets/js/browser.min.js"></script>
+<script src="assets/js/breakpoints.min.js"></script>
+<script src="assets/js/util.js"></script>
+<script src="assets/js/main.js"></script>
+
+</body>
 </html>
