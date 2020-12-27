@@ -6,7 +6,7 @@
 -->
 <html>
 <head>
-    <title>Predicting NASDAQ indexes during the COVID-19 pandemic</title>
+    <title>OK Google, google the NASDAQ</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
     <link rel="stylesheet" href="assets/css/main.css"/>
@@ -21,7 +21,7 @@
 
     <!-- Header -->
     <header id="header">
-        <a href="#" class="logo">Adenosine Deaminase</a>
+        <a href="" class="logo"> Adenosine Deaminase </a>
     </header>
 
     <!-- Nav -->
@@ -30,7 +30,8 @@
             <li class="active"><a href="#">Data Story</a></li>
         </ul>
         <ul class="icons">
-            <li><a href="#" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+            <li><a href="https://github.com/epfl-ada/ada-2020-project-milestone-p3-p3_adenosine-deaminase"
+                   class="icon brands fa-github"><span class="label">GitHub</span></a></li>
         </ul>
     </nav>
 
@@ -41,232 +42,503 @@
         <section class="post">
             <header class="major">
                 <span class="date">December 19, 2020</span>
-                <h1>Predicting NASDAQ indexes <br/>
-                    during the COVID-19 pandemic</h1>
-                <p>Covid-19, the most significant "black swan incident" in 2020, seemed to add huge uncertainties to the
-                    stock market. Between 20 February 2020 and ended on 7 April, the global stock market experienced the
-                    fastest fall in financial history and the most devastating crash since the Wall Street Crash of
-                    1929. NASDAQ indexes, one kind of critical stock indexes in the US stock market, were no
-                    exception.</p>
 
+                <h1> OK Google, <br/>google the NASDAQ </h1>
+                <div class="box">
+                    <p>
+                        <b>COVID-19</b>, the most significant "black swan incident" in 2020, seemed to add huge
+                        uncertainties to
+                        the stock market.
+                        <a href="https://en.wikipedia.org/wiki/2020_stock_market_crash">Between 20 February 2020 and
+                            ended on 7 April</a>
+                        , the global stock market experienced the fastest fall in financial history and the most
+                        devastating crash since the Wall Street Crash of <b>1929</b>. NASDAQ composite index (^IXIC),
+                        one kind of critical stock indexes in
+                        the
+                        US stock
+                        market, was no exception:
+                    </p>
 
+                    <!--插入一张NASDAQ指数的数据图-->
+                    <span class="image fit">
+                        <iframe frameborder="no" marginwidth="0" marginheight="0"
+                                width="100%" height="500" src="plots/Composite_2020.html">
+                        </iframe>
+                    </span>
+
+                    <p>
+                        There are countless factors influencing the stock market. It’s impossible to study them
+                        exhaustively. Here we try to
+                        study several aspects including
+                        <a href="https://trends.google.com/trends/?geo=US">Google Trends</a>
+                        and
+                        <a href="https://data.europa.eu/euodp/en/data/dataset/covid-19-coronavirus-data/resource/260bbbde-2316-40eb-aec3-7cd7bfc2f590">
+                            COVID-19
+                            situation.</a>
+                    </p>
+                </div>
             </header>
 
-            <h2>Introduction</h2>
-            <h3>Background</h3>
-
-
-            <p>There are countless factors influencing the stock market. It’s impossible to study them exhaustively.
-                Here we try to study several aspects including Google Trends and covid-19 situation (new
-                cases/deaths).</p>
-            <p>Google Trends provides a time series index of the volume of queries users enter into Google in a given
+            <hr/>
+            <h2>Google Trends vs. Stock Market</h2>
+            <p>
+                Google Trends provides a time series index of the volume of queries users enter into Google in a given
                 geographic data. Depending on the time range, the data was normalized to [0,100]. Google trends data are
-                available. Furthermore, the search queries were classified into 25 categories on the top level, 274 on
-                the second level, and 629 on the third level, providing an abundant database for us to analyze what
-                people are concerning during a certain time period.
+                available.
+                Furthermore, the search queries were classified into 25 categories on the top level, 274 on the second
+                level, and
+                629 on the third level, providing an abundant database for us to analyze what people are concerning
+                during a certain
+                time period.
             </p>
-            <p>Previous researches show that the addition of relevant Google Trends predictors to the random-work model
-                for initial claims for unemployment benefits in the US seemed to help in identifying at least two of the
-                turning points in the series and showed reduced mean absolute error (MAE) during the recession though
-                the total MAE was higher.<a
-                        href="https://onlinelibrary.wiley.com/doi/full/10.1111/j.1475-4932.2012.00809.x?casa_token=8z--raqCRj8AAAAA%3A1fYgiS4CJi8SE5BhL8EG4pJcFrQMct5X2ILG0Z5gaMmE1e6tPruBJOEfsBfJZIoRXFxFkvwkt3v6WNs">[1]</a>
-                Here we conduct similar analysis on NASDAQ indexes, especially in the year
-                of 2020. We will focus on the influence of Google trends while also looking at two significant numbers
-                that we’ve been concerning for almost one year -- the new Covid-19 cases and deaths.
-            </p>
-
-            <h3>Research Questions
-            </h3>
-            <p>How does the AR-1 Model perform on predicting NASDAQ indexes?
-            </p>
-            <p>There are many queries on google whose time series seem to be related with the covid situation. Do they
-                help to improve the performance of the AR-1 model?
-            </p>
-            <p>Among all the Google Trends categories, which are good predictors of NASDAQ indexes?
-            </p>
-
-            <h2>(2015-2020) Predicting NASDAQ-healthcare
-            </h2>
-            <p>In this section we study the performance of AR-1 models on predicting the NASDAQ-Healthcare index
-                (^IXHC).
-            </p>
-            <h3>Dataset
-            </h3>
-            <p>At first, we chose two NASDAQ indexes: NASDAQ-Healthcare (^IXHC) and NASDAQ-Biotech (^NBI) based on a
-                naive thought that those indexes might be to more extent related to Covid-19. The time range was set as
-                2015/12/01~2020/12/01 with resolution of one week. As shown below, These two indexes seemed to be one
-                the same boat, rising and falling together. Hence we only took NASDAQ-Healthcare in the following
-                regression analysis.
-            </p>
-            <iframe frameborder="no" marginwidth="0" marginheight="0"
-                    width="100%" height="500" src="plots/NASDAQ-both.html">
-            </iframe>
-            <iframe frameborder="no" marginwidth="0" marginheight="0"
-                    width="100%" height="500" src="plots/NASDAQ-std.html">
-            </iframe>
-
-            <h3>Regression Analysis</h3>
-            <h4>Baseline model</h4>
-            <p>As Nelson and Plosser (1982) and many subsequent authors have pointed out, it is very common for
-                macroeconomic data to be represented as a random walk. For a random walk, the best univariate forecast
-                for y_{t} is simply y_{t-1}.</p>
-
-            <h4>Trends Model</h4>
-            <p>The trends model is simply the random walk model with google trends data on the topic vaccine being an
-                additional feature.</p>
-            <p>It seems that in the long run (5 years in our case), Google Trends on the topic vaccine is likely to make
-                no contribution to the random walk model.
-            </p>
-            <h3>Summary</h3>
-            <iframe frameborder="no" marginwidth="0" marginheight="0"
-                    width="100%" height="500" src="plots/out_of_sample_5years.html">
-            </iframe>
-            <p>In summary, in this section we evaluated the performance of the AR-1 model on predicting
-                NASDAQ-Healthcare index in recent 5 years. Results showed that the best univariate predictor is just the
-                one-step-ahead value i.e. random walk model. When playing with additional predictors on the AR-1 model,
-                we found that the NASDAQ-Biotech index slightly improved the random walk model fit while the Google
-                trends on the topic vaccine seemed to have no contribution to the model which is in contrary to our
-                intuition. Our next step is to study the influence of more Google Trends topics and the covid
-                cases/deaths on the AR-1 Model in the year 2020.
-            </p>
-
-            <h2>(2020) Predicting NASDAQ-composite</h2>
-
-            <p>In this section we study the performance of AR-1 models on predicting the NASDAQ-Composite index (^IXIC)
-                in 2020. More additional predictors were studied.
-            </p>
-            <h3>Dataset</h3>
-            <p>From now on, we study the NASDAQ-Composite index (^IXIC). The time range was set as 2015/12/01~2020/12/01
-                with resolution of one day. In order to explore the changes of the stock market as far as possible, we
-                utilize the COVID-19 data in the US and focus on the new cases.</p>
-            <p>We also came out with 9 Google Trends topics that might influence the stock market in 2020. Both trends
-                in the US and worldwide were obtained to see if there’s any difference since the NASDAQ index
-                characterizes the US market.
-            </p>
-
-            <h3>Regression Analysis</h3>
-            <p>We did a rolling-window prediction where the training set we determined as the all the data before day
-                t. The startpoint of prediction was set as 2020/02/01 to ensure that there are enough data points to
-                predict
-                the first value.</p>
-            <p>We can see that the deaths model has ~5% smaller total MAE than the other two models.
-            </p>
-
 
             <p>
-                We then take a look at the MAE values at 4 turning points in 2020 which were specified in the following
-                figure:
+                So which topics are good indicators of the NASDAQ index? By intuiation, the queries about the index
+                itself, the
+                stock market, and words like "recession" seem to be strongly related to the situation of the stock
+                market. Let's
+                plot the Google Trends about
+                <b>Recession</b>
+                ,
+                <b>Stock Market</b>
+                , and
+                <b>NASDAQ</b>
+                in recent 5 years.
             </p>
 
-            <iframe frameborder="no" marginwidth="0" marginheight="0"
-                    width="100%" height="500" src="plots/turningpoints_2020.html">
-            </iframe>
+            <!--插入Part_I的第一张图(NASDAQ, Stock Market, Recession)-->
+            <span class="image fit">
+                        <iframe frameborder="no" marginwidth="0" marginheight="0"
+                                width="100%" height="500" src="plots/trends_5years.html">
+                        </iframe>
+                    </span>
 
-            <p>We could see that only the deaths model shows less MAE than the base model during all the four turning
-                points.</p>
-
-
-            <p>We can see that the Google Trends on the topic lockdown among the world has a rather low p-value compared
-                with other predictors.
-
-                We also compared the total MAE of trends model with that of base model. The improvement ratio was
-                plotted:
+            <p>
+                The three main peaks in
+                <b>Stock Market</b>
+                and
+                <b>NASDAQ</b>
+                were on Nov 2016, Feb 2018, and Mar 2020, each time period correpsonding to impacting news about the
+                stock market.
+                On Nov 2016,
+                <a href="https://money.cnn.com/2016/11/09/investing/dow-jones-trump-wins-election/index.html">Donald
+                    Trump gave his
+                    vitory speech, raising hopes in the markets</a>
+                while on
+                <a href="https://www.cnbc.com/2018/02/05/why-the-stock-market-plunged-today.html#:~:text=The%20Dow%20industrials%20tumbled%20more,flash%20crash%20at%20one%20point.">Feb
+                    2018</a>
+                and Mar 2020, the market plunged. We can see that these Google Trends do refelct people's concern on the
+                stock
+                market. But the question is, are they good predictors of the NASDAQ index?
             </p>
-            <iframe frameborder="no" marginwidth="0" marginheight="0"
-                    width="100%" height="500" src="plots/improvements_2020.html">
-            </iframe>
-            <p>We could see that Google Trends on topics such as covid (in the world and the US), vaccine (in the
-                world), and loan (in the US) improved the total MAE.
-                We also did a turning-point MAE analysis on the trends models. The following figure plots the
-                improvement of MAE compared with base model for each trends model:
-            </p>
-
-
-            <iframe frameborder="no" marginwidth="0" marginheight="0"
-                    width="100%" height="500" src="plots/turningimprovements_2020_1.html">
-            </iframe>
-            <p>In the first period, Google Trends topic Italy shows the largest improvement of MAE. That period
-                corresponds to the first peak of Google Trends on the topic Italy, which might be related to the rapidly
-                increasing Covid-19 cases reported in Italy.</p>
-
-            <iframe frameborder="no" marginwidth="0" marginheight="0"
-                    width="100%" height="500" src="plots/turningimprovements_2020_2.html">
-            </iframe>
-            <p>In the second period, Italy also shows the largest improvement. Interestingly, the US presidential
-                election also improved the MAE. Referring to the Google Trends data on the election, we could see a
-                small peak in that period.</p>
-
-            <iframe frameborder="no" marginwidth="0" marginheight="0"
-                    width="100%" height="500" src="plots/turningimprovements_2020_3.html">
-            </iframe>
-            <p>In the third period, lockdown produced the largest increase of MAE but this is hard to explain because
-                there were no obvious change on the Trends about lockdown in that period.
-            </p>
-            <iframe frameborder="no" marginwidth="0" marginheight="0"
-                    width="100%" height="500" src="plots/turningimprovements_2020_4.html">
-            </iframe>
-            <p>In the 4th period, it seems that no trends significantly increased the MAE, however, the election
-                produced the largest decrease of MAE, which might indicate that the public concern on election itself is
-                not a good predictor for NASDAQ index because because it might originates from both good news and bad
-                news about the election.
-            </p>
-            <p>To make it clearer, we plot the improvement of MAE for each trends model at 4 turning points as shown
-                below:</p>
-            <div class="image main"><img src="plots/separated_features.jpg" alt=""/></div>
-            <p>We can see that only queries related with Italy, no matter in the US or the world, show significant
-                improvement of MAE during the first turning point though there exists relatively small improvements of
-                MAE during the 4 periods.
+            <hr/>
+            <h2> Naive Regression Analysis on Past 5 Years</h2>
+            <p>
+                We build naive auto regression (AR) models on the close value of NASDAQ composite index in recent 5
+                years. The
+                baseline model contains only the one-step-ahead value as the predictor. Then we add the one-step-ahead
+                values of the
+                aformentioned 3 Google Trends repectively to see if the performance could be improved. The results are
+                summarized in
+                the table below
             </p>
 
-            <h3>Summary</h3>
-            <p>In summary, in this section we evaluated the performance of the AR-1 model on predicting NASDAQ-Composite
-                index in 2020. Results showed that the addition of deaths due to Covid-19 increased the MAE during the
-                whole period and the 4 turning points compared with the random walk model while the model added with new
-                cases of Covid-19 does not. We also studied the google trends of 9 topics. We found that ‘covid’
-                improves the total MAE best while ‘Italy’ improves the MAE significantly at the first turning point
-                which corresponds to the onset of Covid-19 pandemic in Italy.</p>
+            <table>
+                <tr>
+                    <th rowspan="2">Model</th>
+                    <th rowspan="2">R-square</th>
+                    <th colspan="3">NASDAQ.l1</th>
+                    <th colspan="3">Trends.l1</th>
+                </tr>
+                <tr>
+                    <th>coef</th>
+                    <th>t</th>
+                    <th>p(>|t|)</th>
+                    <th>coef</th>
+                    <th>t</th>
+                    <th>p(>|t|)</th>
+                </tr>
+                <tr>
+                    <td>Baseline</td>
+                    <td>0.986</td>
+                    <td>1.01</td>
+                    <td>133.36</td>
+                    <td>0.000</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>NASDAQ</td>
+                    <td>0.987</td>
+                    <td>1.04</td>
+                    <td>95.08</td>
+                    <td>0.000</td>
+                    <td>-5.93</td>
+                    <td>-4.36</td>
+                    <td>0.000</td>
+                </tr>
+                <tr>
+                    <td>Stock Market</td>
+                    <td>0.987</td>
+                    <td>1.02</td>
+                    <td>133.56</td>
+                    <td>0.000</td>
+                    <td>-6.45</td>
+                    <td>-4.89</td>
+                    <td>0.000</td>
+                </tr>
+                <tr>
+                    <td>Recession</td>
+                    <td>0.987</td>
+                    <td>1.01</td>
+                    <td>136.20</td>
+                    <td>0.000</td>
+                    <td>-6.29</td>
+                    <td>-4.11</td>
+                    <td>0.000</td>
+                </tr>
+            </table>
 
-            <h2>(2020) Detecting influential categories</h2>
+            <p>
+                Take a close at the baseline model, we couls see that the coefficient of the lagged term is very close
+                to 1, which
+                indicates a random-walk behavior of the NASDAQ index. This is consistent with the observation and
+                discussion made in
+                <a href="https://onlinelibrary.wiley.com/doi/full/10.1111/j.1475-4932.2012.00809.x?casa_token=8z--raqCRj8AAAAA%3A1fYgiS4CJi8SE5BhL8EG4pJcFrQMct5X2ILG0Z5gaMmE1e6tPruBJOEfsBfJZIoRXFxFkvwkt3v6WNs">[1]</a>
+                .
+            </p>
 
-            <p>After zooming into specific topics , we’d like to take a step further and expand our research objects to
-                more general topics in order to find which aspects of life are more likely to improve NASDAQ
-                predictions. Before we do any data analysis, we download all levels of google trends topics in 2020 and
-                conduct data wrangling to meet our needs.</p>
+            <hr/>
+            <blockquote>
+                <p>As Nelson and Plosser (1982) and many subsequent authors have pointed out, it is very
+                    common for macroeconomic data to be represented as a random walk. For a random walk,
+                    the best univariate forecast for y<sub>t</sub> is simply y<sub>t-1</sub>.</p>
+            </blockquote>
+            <hr/>
 
-            <p>First, we again set our model as basic AR-1 model. Each time we add one google trends variable into
-                out-sample regression and make a comparison with our base model by calculating MAE and ratio of
-                improvement.
+            <p>
+                Despite the random-work behavior, we could observe that in the long run (in our case, 5 years), only
+                Google Trends
+                data about NASDAQ, Stock market, and Recession all can bring tiny improvement to the models separately
+                with
+                convincing p-value.
             </p>
-            <p>To our surprise, a large proportion of topics having good performances are about entertainment and
-                leisure in life which may indicate that during the epidemic period, people miss social and outdoor
-                activities and are very eager to find more brand new ways to entertain themselves.Their desire for past
-                collective life causes changes to their behavior which has an indirect impact on stock price.
-            </p>
-            <p>What’s more, we find from the table below, that the search for vulnerable groups also has a great impact
-                for improving predictions. It makes sense since the old and weak are more likely to get infected by
-                corona and need more attention and care.
-            </p>
-            <p>In order to find which topics combined together can fit well with our model. We used a Bayesian method
-                known as ‘spike and slab’ regression introduced in Predicting the Present with Google Trends . This
-                method assumes every variable has an extra coefficient according to Bernoulli distribution which shows
-                how suitable the variable should enter a regression. MCMC algorithm is applied to calculate the
-                posterior distribution of all coefficients.
-            </p>
-            <div><img src="plots/slab.png" height="60%" width="60%" align="center"/></div>
-            <p>We first use the topics from the first level(the most general one) and do the sampling for 5000 times.
-                News, Reference, Internet & Telecom, Pets & Animals, Health are the five topics which are most likely to
-                enter the regression. We then take subtopics from them and run the algorithm again. Broadcast & Network
-                News and Aging & Geriatrics are most influential topics. Finally, for the bottom level. we find the
-                spike and slab technique assigned high posterior probabilities to political polls & Surveys and
-                Campaigns & Elections which is not surprised because 2020 U.S. election has large impact on stock. </p>
-            <div class="image main"><img src="plots/slabfeatures.jpg" alt=""/></div>
-            <p>From the analysis above, Leisure, Healthcare, Politics are three main topics in this unprecedented year.
-                In fact, we believe they are not only good indicators of Stock but also a strong sketching of what we
-                are experiencing now. </p>
 
+            <p>
+                Next, we'll take a look at out-of-sample forecasting. Data from 1st Dec 2015 to the one-step ahead time
+                is used to train the model based on which the close value of NASDAQ index was predicted. The plot below
+                demonstrates the actual NASDAQ index along with the out-of-sample predictions from both
+                baseline model and trends models.
+            </p>
+
+            <!--插入Part_I的第二张图，四个模型预测值的plot-->
+            <span class="image fit">
+                        <iframe frameborder="no" marginwidth="0" marginheight="0"
+                                width="100%" height="500" src="plots/part1_prediction.html">
+                        </iframe>
+                    </span>
+
+            <p>
+                Eh...because NASDAQ index basically follows the random walk pattern as we said before,
+                we can hardly tell distinct differences among these plots. So, we calculated the mean absolute error
+                (MAE) for
+                more insights:
+            </p>
+
+            <table>
+                <tr>
+                    <th>Trends Topic</th>
+                    <th>MAE</th>
+                    <th>Improvement</th>
+                </tr>
+                <tr>
+                    <td>NASDAQ</td>
+                    <td>158.024</td>
+                    <td>2.40%</td>
+                </tr>
+                <tr>
+                    <td>Stock Market</td>
+                    <td>157.678</td>
+                    <td>2.61%</td>
+                </tr>
+                <tr>
+                    <td>Recession</td>
+                    <td>162.348</td>
+                    <td>-0.27%</td>
+                </tr>
+            </table>
+
+            <p>
+                The table shows that Google Trends data about "Stock market" and "NASDAQ" both gain about 2% improvement
+                compared to
+                baseline model. This means it's feasible to do a better prediction for NASDAQ with the help of Google
+                Trends.
+            </p>
+
+            <hr/>
+            <h2>What happened in 2020?</h2>
+            <p>
+                From previous analysis we've known that Google Trends data could improve predictions of NASDAQ index in
+                spite of its
+                random-walk habit. But more detailed discovers are still waiting. For example, in 2020, a special but
+                weird year,
+                which trends affects the NASDAQ most? Does COVID-19 appeal to the finance people?
+            </p>
+            <p>
+                So in this part, we collect more Google Trends in 2020. It' hard to figure out wheter they are related
+                to NASDAQ in
+                a intuiative way. Let's play with these trends on the NASDAQ close value in 2020 using AR model.
+            </p>
+
+            <h3>Let's make a hodgepodge of Google Trends: </h3>
+            <p>
+                Since the time range and resolution have been changed, we first look at the baseline model and a
+                "hodgepodge" model
+                including all the Google Trends data we've collected and the lagging term 'NASDAQ.l1'. The R2 values of
+                these two
+                models are 0.987 and 0.988, respectively. Though slightly improving the R2, the "hodgepodge" model can
+                be bad at
+                prediction. Larger coefficient probably means it has some outliers that may influence the NASDAQ a lot.
+                Just out of
+                out of curiosity, we can't wait to see which trends data has such magic.
+            </p>
+
+            <!--插入Part II的第一张图：杂烩模型的系数比较-->
+            <span class="image fit">
+                        <iframe frameborder="no" marginwidth="0" marginheight="0"
+                                width="100%" height="500" src="plots/all_trends_params.html">
+                        </iframe>
+                    </span>
+
+            <p>
+                It's election, a event that only lasted for several weeks but left an indelible impact on the NASDAQ
+                index. Note that close.l1 in the plot represents the closing prices of NASDAQ index in the previous day.
+                It's always closed
+                to 1.0 no matter how many trends categories we use.
+            </p>
+            <p>
+                OK, let's go back to the main topic in out-of-sample forecasting to explore which the best predictor is.
+            </p>
+
+            <h3>Which trend is the best predictor in 2020?</h3>
+            <p>
+                Similar to what we've done to the 5-year data, we calculate the MAEs of the out-of-sample predictions
+                made by AR
+                models with only one lagging term and one Google Trends term as predictor and compare their improvements
+                compared
+                with the naive univariate AR-model
+            </p>
+
+            <!--插入Part II的第二张图，2020年所有trends的MAE improvement-->
+            <span class="image fit">
+                        <iframe frameborder="no" marginwidth="0" marginheight="0"
+                                width="100%" height="500" src="plots/improvements_2020.html">
+                        </iframe>
+                    </span>
+
+            <p>
+                There you go. COVID-19, the most important event in the whole world, does have the most significant
+                impact on the
+                future trend of NASDAQ index in 2020.
+            </p>
+
+            <p>
+                But wait, as stock market is vulnerable to special event, it might not be enough to draw a conclusion
+                just with
+                analysis in the whole year.
+            </p>
+
+            <h3>How about the turning points?</h3>
+            <p>
+                Turning points are also valuable study subjects. Researchers in economics always hope to find vital
+                elements in such
+                turning periods to prepare the dramatic changes in the future. Here, we choose 4 turining points to dive
+                in.
+            </p>
+
+            <!--插入Part_II的第三张图，转折点图示-->
+            <span class="image fit">
+                        <iframe frameborder="no" marginwidth="0" marginheight="0"
+                                width="100%" height="500" src="plots/turningpoints_2020.html">
+                        </iframe>
+                    </span>
+
+            <p>
+                For each turning period we calculate and compare the MAE improvements
+            </p>
+
+            <h4>Period 1: 2020-02-10 ~ 2020-02-25</h4>
+            <span class="image fit">
+                        <iframe frameborder="no" marginwidth="0" marginheight="0"
+                                width="100%" height="500" src="plots/turning_points_ratio_1.html">
+                        </iframe>
+                    </span>
+            <p>
+                This period could be recognized as the onset of the worldwide COVID-19 pandemic. During this period,
+                Google Trends
+                topic Italy shows the largest improvement of MAE. At the same time, Google Trends on the topic Italy
+                showed its
+                fisrt peak in 2020, which might be related to the rapidly increasing COVID-19 cases reported in Italy.
+            </p>
+
+            <h4>Period 2: 2020-03-10 ~ 2020-03-30</h4>
+            <!--插入Part_II的第五张图，第二个转折点-->
+            <span class="image fit">
+                        <iframe frameborder="no" marginwidth="0" marginheight="0"
+                                width="100%" height="500" src="plots/turning_points_ratio_2.html">
+                        </iframe>
+                    </span>
+            <p>
+                This is a tragic period where the US stock market unprecedentedly fused 4 times in 10 days due to its
+                plunge. During
+                this period, Italy also shows the largest improvement. Interestingly, the US presidential election also
+                improved the
+                MAE. Referring to the Google Trends data on the election, we could see a small peak in that period.
+            </p>
+
+            <h4>Period 3: 2020-08-20 ~ 2020-09-15</h4>
+            <!--插入Part_II的第六张图，第三个转折点-->
+            <span class="image fit">
+                        <iframe frameborder="no" marginwidth="0" marginheight="0"
+                                width="100%" height="500" src="plots/turning_points_ratio_3.html">
+                        </iframe>
+                    </span>
+            <p>
+                During this period, lockdown produced the largest increase of MAE but this is hard to explain because
+                there were no
+                obvious change on the Trends about lockdown during this period.
+            </p>
+
+            <h4>Period 4: 2020-10-10 ~ 2020-11-10</h4>
+            <!--插入Part_II的第七张图，第四个转折点-->
+            <span class="image fit">
+                        <iframe frameborder="no" marginwidth="0" marginheight="0"
+                                width="100%" height="500" src="plots/turning_points_ratio_4.html">
+                        </iframe>
+                    </span>
+            <p>
+                This period is marked by the US president election. It seems that no trends significantly increased the
+                MAE,
+                however, the election produced the largest decrease of MAE, which might indicate that the public concern
+                on election
+                itself is not a good predictor for NASDAQ index because because it might bring to the stock market both
+                optimisim
+                and pessimism which might be switching frequently as the election went on.
+            </p>
+            <h4>Overall Comparison</h4>
+            <p>
+                After investigating each period, let's the performance of all the trends during all the tunring periods
+                together:
+            </p>
+            <!--插入Part_II的第八张图，18张trends小图-->
+            <span class="image fit"><img src="plots/separated_features.png" alt=""/></span>
+            <p>
+                We can see that only queries related with Italy, no matter in the US or the world, show significant
+                improvement of
+                MAE during the first turning point though there exists relatively small improvements of MAE during the 4
+                periods.
+                Also the Trends on election dramatically reduces the MAE in the election period
+            </p>
+
+            <hr/>
+            <h2> Which Trends are actually behind the NASDAQ? </h2>
+            <p> We've already made some breakthrough in the mysterious stock market world, however not enough! Stay
+                hungry!!! Let's
+                dive into the whole and exciting deep sea of google trends and make a thorough exploration to see what
+                happened
+                indeed! </p>
+
+            <p> Since the real world is complicated and full of uncertainties, how can we normal people know what kind
+                of things are
+                actually connected with stock market apart from just by guessing with our few life experiences. One of
+                the answer is
+                again Google trends! Google actually divides Google Trends data into hundreds of categories and 3
+                hierarchical
+                levels which can be easily preprocessed. With Google Trends data in all categories, we are able to
+                analyze our model
+                performance in all different levels.
+            </p>
+            <h3> Analysis for all topics</h3>
+            <p> We apply the same method as before to compare ratio of improvement of MAE, but this time, all topics in
+                life! To our
+                surprise, a large proportion of topics having good performances are about entertainment and leisure in
+                life. Top 1
+                topic is "Concerts & Music Festivals" which improves our base model by 5.6%! One can immediately find
+                the result is
+                not by chance, Think about what happened in 2020, it's reasonable to argue that during the epidemic
+                period, people
+                miss social and outdoor activities and are very eager to find more brand new ways to entertain
+                themselves.Their
+                desire for past collective life causes changes to their behavior which has an indirect impact on stock
+                price.</p>
+            <h3> Relation between different levels</h3>
+            <p> Let's make our analysis more hierarchical and clear. We organize and sort all topics according to their
+                corresponding level. First, we want to know if the broadness of a topic has influnce on inprovement. The
+                answer is
+                yes. Note that <b>level 1</b> is the <b>top level</b> and <b>level 3</b> is the <b>bottom level</b>.
+                From the distribution of
+                improvement, We find that the more detailed a topic is, the more likely it
+                is to improve our model by a lot.
+                <!--分布图-->
+                <span class="image fit">
+                        <iframe frameborder="no" marginwidth="0" marginheight="0"
+                                width="100%" height="500" src="plots/level.html">
+                        </iframe>
+                    </span>
+            <p> Next. we want to find out whether a topic will have better performance as long as it contains a larger
+                proportion of
+                subcategories that are also good predictors. However only level 2 and level 3 conform to this law,
+                namely the
+                "improvement ratios" are positively correlated with "positive ratios".</p>
+            <!--正相关图-->
+            <span class="image fit">
+                        <iframe frameborder="no" marginwidth="0" marginheight="0"
+                                width="100%" height="800" src="plots/level_2.html">
+                        </iframe>
+                    </span>
+            <p> Finally, after we inspect all the three levels, topics about leisure and healthcare almost dominate the
+                other ones.
+                For example, Aging & Geriatrics has a high rank which makes sense because the old and weak are more
+                likely to get
+                infected by corona and need more attention and care. </p>
+
+            <h3> Best predictors top 30</h3>
+            <span class="image fit"><img src="plots/slabfeatures.png" alt=""/></span>
+
+            <hr/>
+            <h2>Conclusion</h2>
+            <ul>
+                <li>NASDAQ index shows a <b>random-walk</b> behavior</li>
+                <li>The AR model for predicting NASDAQ index could be improved (in terms of both in-sample R2 and
+                    out-of-sample MAE)
+                    by Google Trends on "NASDAQ" and "Stock Market"
+                </li>
+                <li>Among the 9 Google Trends in 2020, "COVID-19" improved the MAE the most among the year while Google
+                    Trends on
+                    "Italy" showed the greatest improvements at the first two turning points of NASDAQ index. However,
+                    Google Trends
+                    on "Election" increases the MAE significantly during the election period
+                </li>
+                <li><b>Leisure</b>, <b>Healthcare</b>, <b>Politics</b> are three good
+                    indicators of Stock in this unprecedented year which is in fact a strong sketching of what we most
+                    care about in
+                    2020.
+                </li>
+            </ul>
+
+            <hr/>
             <h2>Reference</h2>
             <p>[1] Choi, Hyunyoung, and Hal Varian. "Predicting the present with Google Trends." Economic record 88
                 (2012): 2-9.</p>
+
+            <ul class="actions fit small">
+                <li><a href="#" class="button primary">Go Top</a></li>
+            </ul>
+            <ul class="actions fit small">
+                <li><a href="https://github.com/epfl-ada/ada-2020-project-milestone-p3-p3_adenosine-deaminase"
+                       class="button primary">GitHub</a></li>
+            </ul>
 
         </section>
 
